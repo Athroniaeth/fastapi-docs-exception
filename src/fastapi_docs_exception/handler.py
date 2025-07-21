@@ -1,11 +1,17 @@
 from collections import defaultdict
-from typing import Callable, Sequence, Dict, Any, Union, Type, Optional, List
+from typing import Callable, Sequence, Dict, Any, Union, Type, Optional, List, Protocol
 
-from fastapi import HTTPException
 from pydantic import BaseModel
 
 type OneOrMany[T] = Union[T, List[T]]
 """Type alias for a type that can be either a single instance of T or a list of T."""
+
+
+class HTTPException(Protocol):
+    """Replication of FastAPI's HTTPException class so you don't need to import the library."""
+
+    status_code: int
+    detail: str
 
 
 def get_description_from_exception(exc: HTTPException) -> str:
