@@ -7,13 +7,13 @@ authors = [
     { name = "Athroniaeth", email = "pierre.chaumont@hotmail.fr" }
 ]
 requires-python = ">=3.12"
-dependencies = [
-    "commitizen>=4.8.3",
-]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[project.scripts]
+lint = "fastapi_docs_exception:lint"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -22,3 +22,17 @@ version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
 major_version_zero = true
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.8.3",
+    "fastapi[standard]>=0.116.1",
+    "pytest-cov>=6.2.1",
+    "pytest>=8.4.1",
+    "ruff>=0.12.4",
+    "ty>=0.0.1a15",
+]
+
+[tool.pytest.ini_options]
+# Automatically create html and xml coverage reports
+addopts = "--cov=src --cov-report=term-missing --cov-report=html --cov-report=xml"
