@@ -1,3 +1,9 @@
+## 0.3.1 (2025-07-22)
+
+### Refactor
+
+- delete fastapi dependency with protocol http exception
+
 ## 0.3.0 (2025-07-22)
 
 ### Feat
