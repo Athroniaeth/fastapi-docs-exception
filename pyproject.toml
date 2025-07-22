@@ -25,8 +25,8 @@ major_version_zero = true
 
 [dependency-groups]
 dev = [
-    "commitizen>=4.8.3",
     "fastapi[standard]>=0.116.1",
+    "commitizen>=4.8.3",
     "pytest-cov>=6.2.1",
     "pytest>=8.4.1",
     "ruff>=0.12.4",

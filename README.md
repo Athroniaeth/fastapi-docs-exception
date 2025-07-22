@@ -1,9 +1,8 @@
-# fastapi_docs_exception
+# FastAPI Docs Exception
 
 > 📖 **Automatically surface your controllers exceptions in FastAPI’s Swagger / ReDoc docs**  
 
-`fastapi_docs_exception` is a tiny helper that turns your own `HTTPException` subclasses into fully-documented responses with **somes line of code**.  
-No more copy-pasting `responses={404: {...}, 500: {...}}` in every route – let the library build a shared `responses` mapping for you, complete with example payloads.
+`fastapi_docs_exception` is a tiny helper that turns your own `HTTPException` subclasses into fully-documented responses with **somes line of code**. No more copy-pasting `responses={404: {...}, 500: {...}}` in every route – let the library build a shared `responses` mapping for you, complete with example payloads.
 
 <p align="center">
   <img src="docs/swagger.png" alt="Swagger UI screenshot that shows custom 404 & 500 error examples" width="700">
@@ -23,14 +22,7 @@ uv add fastapi_docs_exception
 
 # Or the classic way
 pip install fastapi_docs_exception
-````
-
-> **Note**
-> If you’re installing straight from GitHub before the first PyPI release:
->
-> ```bash
-> uv add fastapi_docs_exception
-> ```
+```
 
 ---
 
@@ -81,9 +73,7 @@ def get_item(item_id: str):
     return {"item_id": item_id}
 ```
 
-Open [http://localhost:8000/docs](http://localhost:8000/docs) and voilà 🎉
-Your 404 / 500 responses (with example JSON) now appear globally in Swagger & ReDoc.
-
+Open [http://localhost:8000/docs](http://localhost:8000/docs) and you will see the custom 404 and 500 responses in the Swagger UI and ReDoc documentation with example payloads.
 ---
 
 ## 🔧 Development
