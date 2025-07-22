@@ -1,9 +1,10 @@
 from collections import defaultdict
-from typing import Callable, Sequence, Dict, Any, Union, Type, Optional, List, Protocol
+from typing import Callable, Sequence, Dict, Any, Union, Type, Optional, List, Protocol, TypeVar
 
 from pydantic import BaseModel
 
-type OneOrMany[T] = Union[T, List[T]]
+T = TypeVar("T")
+OneOrMany = Union[T, List[T]]
 """Type alias for a type that can be either a single instance of T or a list of T."""
 
 
@@ -70,8 +71,8 @@ class ExceptionResponseFactory:
 
     def __init__(
         self,
-        example_fn: Callable[[HTTPException], Dict[str, Any]] | None = None,
-        description_fn: Callable[[HTTPException], str] | None = None,
+        example_fn: Optional[Callable[[HTTPException], Dict[str, Any]]] = None,
+        description_fn: Optional[Callable[[HTTPException], str]] = None,
         model: Optional[Type[BaseModel]] = None,
     ):
         self.description_fn = description_fn or get_description_from_exception
