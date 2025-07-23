@@ -1,2 +1,2 @@
 --action-offline-mode
---secret-file .secrets
+--secret-file .env
