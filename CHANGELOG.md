@@ -1,3 +1,9 @@
+## 0.4.2 (2025-07-23)
+
+### Fix
+
+- final patchfix for ci cd, separe dev/master
+
 ## 0.4.1 (2025-07-23)
 
 ### Fix

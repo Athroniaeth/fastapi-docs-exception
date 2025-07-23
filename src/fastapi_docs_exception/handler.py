@@ -1,5 +1,16 @@
 from collections import defaultdict
-from typing import Callable, Sequence, Dict, Any, Union, Type, Optional, List, Protocol, TypeVar
+from typing import (
+    Callable,
+    Sequence,
+    Dict,
+    Any,
+    Union,
+    Type,
+    Optional,
+    List,
+    Protocol,
+    TypeVar,
+)
 
 from pydantic import BaseModel
 
