@@ -15,7 +15,6 @@ build-backend = "hatchling.build"
 [project.scripts]
 lint = "fastapi_docs_exception:lint"
 
-
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "$version"
