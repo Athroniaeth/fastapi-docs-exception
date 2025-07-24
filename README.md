@@ -1,8 +1,16 @@
 # FastAPI Docs Exception
 
-> 📖 **Automatically surface your controllers exceptions in FastAPI’s Swagger / ReDoc docs**  
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/fastapi_docs_exception.svg)](https://pypi.org/project/fastapi_docs_exception/)
+[![CI](https://github.com/Athroniaeth/fastapi-docs-exception/actions/workflows/release.yml/badge.svg)](https://github.com/Athroniaeth/fastapi-docs-exception/actions/workflows/release.yml)
 
-`fastapi_docs_exception` is a tiny helper that turns your own `HTTPException` subclasses into fully-documented responses with **somes line of code**. No more copy-pasting `responses={404: {...}, 500: {...}}` in every route – let the library build a shared `responses` mapping for you, complete with example payloads.
+> **Automatically expose your custom FastAPI exceptions in Swagger / ReDoc — with proper grouping and examples.**
+
+---
+
+## ✨ Features
+
+Stop repeating `responses={...}` in every route : This lightweight utility turns your custom HTTPException subclasses into **shared, documented** OpenAPI responses — complete with example payloads.
 
 <p align="center">
   <img src="docs/swagger.png" alt="Swagger UI screenshot that shows custom 404 & 500 error examples" width="700">
@@ -12,6 +20,10 @@
   <img src="docs/redoc.png" alt="Swagger UI screenshot that shows custom 404 & 500 error examples" width="700">
 </p>
 
+- **Update docs**: Convert your `HTTPException` subclasses into shared OpenAPI responses.
+- **Grouped by status code**: if you have multiple exceptions with the same status code, they will be grouped together.
+- **Pydantic schema**: Provide Pydantic models or tweak JSON Schema on the fly.
+
 ---
 
 ## 🚀 Installation
@@ -19,7 +31,9 @@
 ```bash
 # With uv (recommended)
 uv add fastapi_docs_exception
+```
 
+```bash
 # Or the classic way
 pip install fastapi_docs_exception
 ```
@@ -55,15 +69,15 @@ class InternalServerError(HTTPException):
         super().__init__(status_code=500, detail=detail)
 
 
-# 2️⃣  Feed them to the factory (class allow more flexibility)
+# 2️⃣  Feed them to the factory (classes allow more flexibility)
 # You can specify Pydantic schemas, edit the JSON schema, etc.
 exc_response_factory = HTTPExceptionResponseFactory()
 
 app = FastAPI(
     responses=exc_response_factory.build([
-        NotFoundError(),  # 404 section
-        ApiNotFoundException(),  # 404 section (grouped with the previous one)
-        InternalServerError(),  # 500 section (only one)
+        NotFoundError(),  # 404 response
+        ApiNotFoundException(),  # 404 response (grouped with the previous one)
+        InternalServerError(),  # 500 response (only one)
     ]),
 )
 
@@ -77,6 +91,7 @@ def get_item(item_id: str):
 ```
 
 Open [http://localhost:8000/docs](http://localhost:8000/docs) and you will see the custom 404 and 500 responses in the Swagger UI and ReDoc documentation with example payloads.
+
 ---
 
 ## 🔧 Development
@@ -97,12 +112,14 @@ uv pip install -e ".[dev]"
 ### Lint, format, type-check (all in one)
 
 ```bash
-uv run lint  # will use ruff lint, ruff format, ty
+# Run all lint with ruff (lint, format), ty, bandit
+uv run lint
 ```
 
 ### Run the test-suite
 
 ```bash
+# Run all tests with pytest
 uv run test
 ```
 
