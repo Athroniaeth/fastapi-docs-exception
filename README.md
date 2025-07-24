@@ -1,8 +1,10 @@
 # FastAPI Docs Exception
 
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PyPI version](https://img.shields.io/pypi/v/fastapi_docs_exception.svg)](https://pypi.org/project/fastapi_docs_exception/)
 [![CI](https://github.com/Athroniaeth/fastapi-docs-exception/actions/workflows/release.yml/badge.svg)](https://github.com/Athroniaeth/fastapi-docs-exception/actions/workflows/release.yml)
+![Python versions](https://img.shields.io/pypi/pyversions/fastapi-docs-exception)
 
 > **Automatically expose your custom FastAPI exceptions in Swagger / ReDoc — with proper grouping and examples.**
 
@@ -134,7 +136,7 @@ All kinds of contributions are welcome – bug reports, feature ideas, docs fixe
 3. **Run** `uv run lint && uv run test` and ensure everything stays green.
 4. **Open a Pull Request** describing *why* the change is useful.
 
-Please use `commitizen` to format your commit messages, e.g. `cz commit`
+Please use `commitizen` to format your commit messages, e.g. `cz commit`, `uv tool run --from commitizen cz bump`
 
 ---
 
