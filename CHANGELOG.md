@@ -1,3 +1,13 @@
+## 0.4.3 (2025-07-24)
+
+### Fix
+
+- final patchfix for ci cd, separe dev/master
+
+### Refactor
+
+- improve modularity with typing, abstract and generic var
+
 ## 0.4.2 (2025-07-23)
 
 ### Fix
