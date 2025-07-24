@@ -1,8 +1,9 @@
-from fastapi_docs_exception.handler import ExceptionResponseFactory
+from fastapi_docs_exception.handler import HTTPExceptionResponseFactory
 
 
 def lint():  # pragma: no cover
     """Development lint function."""
+    # Todo: Create CI/CD command for workflow github actions
     import subprocess  # nosec: only calling static, internal commands
     import shutil
 
@@ -25,4 +26,4 @@ def lint():  # pragma: no cover
         subprocess.run(command, check=True, shell=False)  # nosec: B603
 
 
-__all__ = ["ExceptionResponseFactory"]
+__all__ = ["HTTPExceptionResponseFactory"]

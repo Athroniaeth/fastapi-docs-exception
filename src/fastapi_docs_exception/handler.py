@@ -1,3 +1,4 @@
+from abc import ABC
 from collections import defaultdict
 from typing import (
     Callable,
@@ -8,22 +9,19 @@ from typing import (
     Type,
     Optional,
     List,
-    Protocol,
     TypeVar,
+    Generic,
 )
 
+# If the user uses fastapi_docs_exception, it means they have installed fastapi/pydantic.
+from fastapi import HTTPException
 from pydantic import BaseModel
 
 T = TypeVar("T")
+E = TypeVar("E", bound=HTTPException)
+
 OneOrMany = Union[T, List[T]]
 """Type alias for a type that can be either a single instance of T or a list of T."""
-
-
-class HTTPException(Protocol):
-    """Replication of FastAPI's HTTPException class so you don't need to import the library."""
-
-    status_code: int
-    detail: str
 
 
 def get_description_from_exception(exc: HTTPException) -> str:
@@ -77,20 +75,24 @@ def get_docstring_from_exception(exc: HTTPException) -> str:
     return doc.split("\n\n")[0] if doc else exc.detail
 
 
-class ExceptionResponseFactory:
-    """Construct the responses dict for FastAPI/OpenAPI from a list of exceptions."""
+class ExceptionResponseFactory(Generic[E], ABC):
+    """Abstract base class for response factories.
+
+    Notes:
+        This abstract allow to another developer to use custom HTTPException system
+    """
 
     def __init__(
         self,
-        example_fn: Optional[Callable[[HTTPException], Dict[str, Any]]] = None,
-        description_fn: Optional[Callable[[HTTPException], str]] = None,
+        example_fn: Callable[[E], Dict[str, Any]],
+        description_fn: Callable[[E], str],
         model: Optional[Type[BaseModel]] = None,
     ):
-        self.description_fn = description_fn or get_description_from_exception
-        self.example_fn = example_fn or get_examples_from_exception
+        self.example_fn = example_fn
+        self.description_fn = description_fn
         self.model = model
 
-    def build(self, exceptions: Sequence[HTTPException]) -> Dict:
+    def build(self, exceptions: Sequence[E]) -> Dict:
         """Build the responses dict for FastAPI/OpenAPI from a list of exceptions."""
         responses = {}
         grouped = defaultdict(list)
@@ -110,7 +112,7 @@ class ExceptionResponseFactory:
 
         return responses
 
-    def _single_response(self, exc: HTTPException) -> Dict[str, Any]:
+    def _single_response(self, exc: E) -> Dict[str, Any]:
         """Helper method to create a single response dict (without SelectInput on Swagger)."""
         description = self.description_fn(exc)
         examples = self.example_fn(exc)
@@ -126,7 +128,7 @@ class ExceptionResponseFactory:
 
         return response
 
-    def _multi_response(self, exc_list: Sequence[HTTPException]) -> Dict:
+    def _multi_response(self, exc_list: Sequence[E]) -> Dict:
         """Helper method to create a response dict for multiple exceptions (with SelectInput on Swagger)."""
         examples_block = {}
         description = "\n".join(f"- {self.description_fn(exc)}" for exc in exc_list)
@@ -150,3 +152,28 @@ class ExceptionResponseFactory:
         }
 
         return response
+
+
+class HTTPExceptionResponseFactory(ExceptionResponseFactory[HTTPException]):
+    """Construct the responses dict for FastAPI/OpenAPI from a list of HTTPException.
+
+    Attributes:
+        example_fn (Callable[[HTTPException], Dict[str, Any]]): Function to generate example responses.
+        description_fn (Callable[[HTTPException], str]): Function to generate descriptions for exceptions.
+        model (Optional[Type[BaseModel]]): Optional Pydantic model for response validation.
+    """
+
+    def __init__(
+        self,
+        example_fn: Optional[Callable[[HTTPException], Dict[str, Any]]] = None,
+        description_fn: Optional[Callable[[HTTPException], str]] = None,
+        model: Optional[Type[BaseModel]] = None,
+    ):
+        example_fn = example_fn or get_examples_from_exception
+        description_fn = description_fn or get_description_from_exception
+
+        super().__init__(
+            example_fn=example_fn,
+            description_fn=description_fn,
+            model=model,
+        )

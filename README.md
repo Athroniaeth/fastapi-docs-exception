@@ -30,7 +30,8 @@ pip install fastapi_docs_exception
 
 ```python
 from fastapi import FastAPI, HTTPException
-from fastapi_docs_exception.handler import ExceptionResponseFactory
+from fastapi_docs_exception import HTTPExceptionResponseFactory
+
 
 # 1️⃣  Define your exceptions any way you like
 class ApiNotFoundException(HTTPException):
@@ -53,17 +54,19 @@ class InternalServerError(HTTPException):
     def __init__(self, detail: str = "Internal server error, please try again later"):
         super().__init__(status_code=500, detail=detail)
 
+
 # 2️⃣  Feed them to the factory (class allow more flexibility)
 # You can specify Pydantic schemas, edit the JSON schema, etc.
-exc_response_factory = ExceptionResponseFactory()
+exc_response_factory = HTTPExceptionResponseFactory()
 
 app = FastAPI(
     responses=exc_response_factory.build([
-        NotFoundError(),          # 404 section
-        ApiNotFoundException(),   # 404 section (grouped with the previous one)
-        InternalServerError(),    # 500 section (only one)
+        NotFoundError(),  # 404 section
+        ApiNotFoundException(),  # 404 section (grouped with the previous one)
+        InternalServerError(),  # 500 section (only one)
     ]),
 )
+
 
 # 3️⃣  Use your exceptions in the code
 @app.get("/items/{item_id}")

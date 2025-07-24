@@ -6,7 +6,7 @@ from pydantic import Field, BaseModel
 
 from fastapi_docs_exception.handler import (
     get_description_from_exception,
-    ExceptionResponseFactory,
+    HTTPExceptionResponseFactory,
 )
 
 
@@ -52,7 +52,7 @@ class InternalServerError(HTTPException):
 
 @pytest.mark.parametrize(
     "import_path",
-    ["fastapi_docs_exception.ExceptionResponseFactory"],
+    ["fastapi_docs_exception.HTTPExceptionResponseFactory"],
 )
 def test_import_redirections(import_path: str):
     module_name_1, attr_name_1 = import_path.rsplit(".", 1)
@@ -93,8 +93,8 @@ def test_get_description_from_exception(
 
 
 def test_exception_response_factory_build_multiple():
-    """Test the ExceptionResponseFactory build method."""
-    exc_response_factory = ExceptionResponseFactory()
+    """Test the HTTPExceptionResponseFactory build method."""
+    exc_response_factory = HTTPExceptionResponseFactory()
 
     responses = exc_response_factory.build(
         [
@@ -145,8 +145,8 @@ def test_exception_response_factory_build_multiple():
 
 
 def test_exception_response_factory_build_multiple_with_model():
-    """Test the ExceptionResponseFactory build method with a model."""
-    exc_response_factory = ExceptionResponseFactory(model=SchemaAPIException)
+    """Test the HTTPExceptionResponseFactory build method with a model."""
+    exc_response_factory = HTTPExceptionResponseFactory(model=SchemaAPIException)
 
     responses = exc_response_factory.build(
         [
