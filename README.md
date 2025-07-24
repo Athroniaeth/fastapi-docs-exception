@@ -103,7 +103,7 @@ uv run lint  # will use ruff lint, ruff format, ty
 ### Run the test-suite
 
 ```bash
-pytest
+uv run test
 ```
 
 A coverage report will be shown in the terminal and `htmlcov` will be generated in the project root.

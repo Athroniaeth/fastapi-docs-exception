@@ -14,6 +14,9 @@ build-backend = "hatchling.build"
 
 [project.scripts]
 lint = "fastapi_docs_exception:lint"
+test = "fastapi_docs_exception:test"
+lint_ci = "fastapi_docs_exception:lint_ci"
+test_ci = "fastapi_docs_exception:test_ci"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -36,4 +39,4 @@ dev = [
 
 [tool.pytest.ini_options]
 # Automatically create html and xml coverage reports
-addopts = "--cov=src --cov-report=term-missing --cov-report=html --cov-report=xml"
+addopts = "--cov=src --cov-report=term-missing"
